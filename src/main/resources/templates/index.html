@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index page</title>
+</head>
+<body>
+    <h1 class="hello-title">Hello There! You are at index.html Page</h1>
+    <div sec:authorize="isAuthenticated()">
+        Authenticated as <span sec:authentication="name"></span></div>
+
+    <!--/*@thymesVar id="message" type="String"*/-->
+    Message: <p th:text="${message}"></p>
+    <hr />
+
+    <h2>List of skills</h2>
+    <!--/*@thymesVar id="skills" type="List"*/-->
+    <ul th:each="skill : ${skills}">
+        <li th:text="${skill}">skill</li>
+    </ul>
+</body>
+</html>
