@@ -1,13 +1,13 @@
 package com.kangmin.security.service.impl;
 
-import com.kangmin.security.service.TestService;
+import com.kangmin.security.service.GreetingService;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class TestServiceImpl implements TestService {
+public class GreetingServiceImpl implements GreetingService {
 
     @Override
     public final String getMessage() {

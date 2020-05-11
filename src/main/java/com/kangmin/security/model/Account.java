@@ -16,6 +16,10 @@ public final class Account {
     @Id
     private String username;
 
+    private String name;
+
+    private String email;
+
     private String password;
 
     private String role;
@@ -27,10 +31,14 @@ public final class Account {
     public Account(final String accountId,
                    final String username,
                    final String password,
-                   final String role) {
+                   final String role,
+                   final String name,
+                   final String email) {
         this.accountId = accountId;
         this.username = username;
         this.password = password;
         this.role = role;
+        this.name = name;
+        this.email = email;
     }
 }

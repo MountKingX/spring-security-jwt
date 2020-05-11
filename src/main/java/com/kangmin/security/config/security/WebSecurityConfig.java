@@ -3,11 +3,13 @@ package com.kangmin.security.config.security;
 import com.kangmin.security.config.jwt.JwtAuthenticationEntryPoint;
 import com.kangmin.security.config.jwt.JwtProvider;
 import com.kangmin.security.config.jwt.JwtTokenVerificationFilter;
-import com.kangmin.security.config.jwt.JwtLoginAuthenticationFilter;
+// import com.kangmin.security.config.jwt.JwtLoginAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.kangmin.security.model.security.WebUserPermission.ACCOUNT_READ;
 import static com.kangmin.security.model.security.WebUserRole.ADMIN;
@@ -62,17 +65,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers()
                     .frameOptions().disable()
                     .and()
-                .addFilter(new JwtLoginAuthenticationFilter(authenticationManager(), jwtProvider))
-                .addFilterAfter(jwtTokenVerificationFilterBean(), JwtLoginAuthenticationFilter.class)
+                // alternative way to configure using two filters
+                // .addFilter(new JwtLoginAuthenticationFilter(authenticationManager(), jwtProvider))
+                // .addFilterAfter(jwtTokenVerificationFilterBean(), JwtLoginAuthenticationFilter.class)
+                // this is the way to separate the filter
+                .addFilterBefore(jwtTokenVerificationFilterBean(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                     .antMatchers(
                             "/favicon.ico",
-                        "/", "/index",
-                        "/css/*", "/js/*",
-                        "/login", "/auth/login",
-                        "/devTest",
-                        "/h2-console", "/h2-console/*"
+                            "/", "/index",
+                            "/css/*", "/js/*",
+                            "/login", "/auth/login",
+                            "/register", "/auth/register",
+                            "/devTest",
+                            "/h2-console", "/h2-console/*"
                     )
+                        .permitAll()
+                    .antMatchers("/api/auth/*")
                         .permitAll()
                     .antMatchers("/api/v1/todolists/**")
                         .authenticated()
@@ -100,5 +109,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(webUserDetailsService);
         return provider;
+    }
+
+    @Bean(BeanIds.AUTHENTICATION_MANAGER)
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }

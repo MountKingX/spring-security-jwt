@@ -40,4 +40,14 @@ public class AccountServiceImpl implements AccountService {
     public Optional<Account> getAccountById(final String accountId) {
         return accountDao.findAccountByAccountId(accountId);
     }
+
+    @Override
+    public boolean isUsernameExist(final String username) {
+        return accountDao.existsAccountByUsername(username);
+    }
+
+    @Override
+    public boolean isEmailExist(final String email) {
+        return accountDao.existsAccountByEmail(email);
+    }
 }

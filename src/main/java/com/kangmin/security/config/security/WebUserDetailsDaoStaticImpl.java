@@ -54,19 +54,25 @@ public class WebUserDetailsDaoStaticImpl implements WebUserDetailsDao {
                         "id-1111",
                         "normal",
                         passwordEncoder.encode("password1"),
-                        NORMAL.name()
+                        NORMAL.name(),
+                        "normal name",
+                        "normal@static.test.com"
                 ),
                 new Account(
                         "id-2222",
                         "admin",
                         passwordEncoder.encode("password2"),
-                        ADMIN.name()
+                        ADMIN.name(),
+                        "admin name",
+                        "admin@static.test.com"
                 ),
                 new Account(
                         "id-3333",
                         "sa",
                         passwordEncoder.encode("password"),
-                        SUPER_ADMIN.name()
+                        SUPER_ADMIN.name(),
+                        "sa name",
+                        "sa@static.test.com"
                 )
         );
     }

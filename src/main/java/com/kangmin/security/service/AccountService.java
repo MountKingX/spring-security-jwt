@@ -14,4 +14,8 @@ public interface AccountService {
     Optional<Account> getAccountByUsername(final String username);
 
     Optional<Account> getAccountById(final String accountId);
+
+    boolean isUsernameExist(final String username);
+
+    boolean isEmailExist(final String email);
 }

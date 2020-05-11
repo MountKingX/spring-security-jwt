@@ -32,7 +32,7 @@ public class AccountController {
         return accountService.getAccountById(accountId).orElse(new Account());
     }
 
-    @GetMapping(path = "/u/{username}")
+    @GetMapping(path = "/username/{username}")
     public Account getAccountByUsername(final @PathVariable("username") String username) {
         return accountService.getAccountByUsername(username).orElse(new Account());
     }

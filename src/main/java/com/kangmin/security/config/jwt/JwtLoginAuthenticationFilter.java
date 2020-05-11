@@ -14,6 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/*
+    Right now, I am using AuthController to handle login & register
+ */
+@Deprecated
 public class JwtLoginAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
@@ -23,7 +27,7 @@ public class JwtLoginAuthenticationFilter extends UsernamePasswordAuthentication
                                         final JwtProvider jwtProvider) {
         this.authenticationManager = authenticationManager;
         this.jwtProvider = jwtProvider;
-        // login entry and allowed HTTP method
+        // another login entry and allowed HTTP method
         this.setRequiresAuthenticationRequestMatcher(
                 new AntPathRequestMatcher("/auth/login", "POST"));
     }
@@ -47,7 +51,6 @@ public class JwtLoginAuthenticationFilter extends UsernamePasswordAuthentication
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
@@ -57,6 +60,7 @@ public class JwtLoginAuthenticationFilter extends UsernamePasswordAuthentication
                                             final Authentication authResult) {
         final String token = jwtProvider.generateToken(authResult);
         response.addHeader(
-                jwtProvider.getAuthorizationHeader(), jwtProvider.getTokenPrefix() + token);
+                jwtProvider.getAuthorizationHeader(), jwtProvider.getTokenPrefix() + token
+        );
     }
 }
